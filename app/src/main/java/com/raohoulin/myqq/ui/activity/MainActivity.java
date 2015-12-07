@@ -17,6 +17,8 @@ import com.raohoulin.myqq.ui.view.MainView;
 
 import butterknife.Bind;
 
+import static com.raohoulin.myqq.ui.activity.SecondActivity.actionStart;
+
 /**
  * Created by Administrator on 2015.12.4.
  */
@@ -67,7 +69,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     }
 
     @Override public void navigateToSecond() {
-        startActivity(new Intent(this, SecondActivity.class));
+        actionStart(this);
 //        finish();
     }
 
