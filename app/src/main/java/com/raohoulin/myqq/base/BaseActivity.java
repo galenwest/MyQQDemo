@@ -24,8 +24,8 @@ public abstract class BaseActivity extends Activity implements BaseViewInterface
         }
 
         ButterKnife.bind(this);
-        initView();
         initData();
+        initView();
     }
 
     @Override
