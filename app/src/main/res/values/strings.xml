@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyQQ</string>
+    <string name="tip_double_click_exit">再次点击退出程序</string>
 </resources>

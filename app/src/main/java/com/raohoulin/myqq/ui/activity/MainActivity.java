@@ -1,7 +1,7 @@
 package com.raohoulin.myqq.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -13,6 +13,7 @@ import com.raohoulin.myqq.R;
 import com.raohoulin.myqq.base.BaseActivity;
 import com.raohoulin.myqq.presenter.MainPresenter;
 import com.raohoulin.myqq.presenter.impl.MainPresenterImpl;
+import com.raohoulin.myqq.ui.helper.DoubleClickExitHelper;
 import com.raohoulin.myqq.ui.view.MainView;
 
 import butterknife.Bind;
@@ -25,6 +26,7 @@ import static com.raohoulin.myqq.ui.activity.SecondActivity.actionStart;
 public class MainActivity extends BaseActivity implements MainView, View.OnClickListener {
     private MainPresenter presenter;
     private boolean isTurn;
+    private DoubleClickExitHelper mDoubleClickExit;
 
     @Bind(R.id.progress) ProgressBar progressBar;
     @Bind(R.id.is_turn) Switch is_turn;
@@ -58,6 +60,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     public void initData() {
         presenter = new MainPresenterImpl(this);
         isTurn = is_turn.isChecked();
+        mDoubleClickExit = new DoubleClickExitHelper(this);
     }
 
     @Override public void showProgress() {
@@ -71,6 +74,18 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override public void navigateToSecond() {
         actionStart(this);
 //        finish();
+    }
+
+    /**
+     * 监听返回--是否退出程序
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 是否退出应用
+                return mDoubleClickExit.onKeyDown(keyCode, event);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

@@ -62,12 +62,13 @@ public class SecondActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(SecondActivity.this, popupData.get(position).get("key"), Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
             }
         });
         // 设置PopupWindow宽高自适应
         popupListView.measure(popupLayout.getMeasuredWidth(), popupLayout.getMeasuredHeight());
         popupWindow.setWidth(popupListView.getMeasuredWidth());
-        popupWindow.setHeight(popupListView.getMeasuredHeight() * popupItemCount);
+        popupWindow.setHeight(popupListView.getMeasuredHeight() * popupItemCount + 60);
         // 控制PopupWindow点击其他地方不阻塞
         popupWindow.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.popup_window_bg));
     }
@@ -88,7 +89,7 @@ public class SecondActivity extends BaseActivity implements View.OnClickListener
         map = new HashMap<>();
         map.put("key", "FORE");
         popupData.add(map);
-        popupItemCount = popupData.size();
+        popupItemCount = popupData.size() + 1;
     }
 
     @Override
