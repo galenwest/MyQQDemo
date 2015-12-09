@@ -68,7 +68,7 @@ public class SecondActivity extends BaseActivity implements View.OnClickListener
         // 设置PopupWindow宽高自适应
         popupListView.measure(popupLayout.getMeasuredWidth(), popupLayout.getMeasuredHeight());
         popupWindow.setWidth(popupListView.getMeasuredWidth());
-        popupWindow.setHeight(popupListView.getMeasuredHeight() * popupItemCount + 60);
+        popupWindow.setHeight(popupListView.getMeasuredHeight() * popupItemCount + 52);
         // 控制PopupWindow点击其他地方不阻塞
         popupWindow.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.popup_window_bg));
     }
@@ -88,6 +88,9 @@ public class SecondActivity extends BaseActivity implements View.OnClickListener
         popupData.add(map);
         map = new HashMap<>();
         map.put("key", "FORE");
+        popupData.add(map);
+        map = new HashMap<>();
+        map.put("key", "FIVE");
         popupData.add(map);
         popupItemCount = popupData.size() + 1;
     }

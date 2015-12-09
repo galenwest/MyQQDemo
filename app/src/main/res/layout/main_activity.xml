@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<com.raohoulin.myqq.widget.SlidingMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rhl="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu_id"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="#F58899"
-    android:orientation="vertical">
+    android:background="@mipmap/fram_bg"
+    android:scrollbars="none"
+    rhl:rightPadding="75dp">
 
-    <Switch
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:id="@+id/is_turn" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button" />
+        <include layout="@layout/menu_layout" />
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F58899"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/change_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="28dp"
+                android:text="切换"/>
 
-</LinearLayout>
+            <Switch
+                android:id="@+id/is_turn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </LinearLayout>
+</com.raohoulin.myqq.widget.SlidingMenu>

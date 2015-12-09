@@ -15,6 +15,7 @@ import com.raohoulin.myqq.presenter.MainPresenter;
 import com.raohoulin.myqq.presenter.impl.MainPresenterImpl;
 import com.raohoulin.myqq.ui.helper.DoubleClickExitHelper;
 import com.raohoulin.myqq.ui.view.MainView;
+import com.raohoulin.myqq.widget.SlidingMenu;
 
 import butterknife.Bind;
 
@@ -31,6 +32,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Bind(R.id.progress) ProgressBar progressBar;
     @Bind(R.id.is_turn) Switch is_turn;
     @Bind(R.id.button) Button button;
+    @Bind(R.id.change_view) Button change_view;
+    @Bind(R.id.menu_id) SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     public void initView() {
 //        progressBar = (ProgressBar) findViewById(R.id.progress);
         button.setOnClickListener(this);
+        change_view.setOnClickListener(this);
         is_turn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -95,6 +99,16 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     @Override
     public void onClick(View v) {
-        presenter.goToSecondActivity(isTurn);
+        switch (v.getId()) {
+            case R.id.button:
+                presenter.goToSecondActivity(isTurn);
+                break;
+            case R.id.change_view:
+                slidingMenu.toggle();
+                break;
+            default:
+                break;
+        }
+
     }
 }

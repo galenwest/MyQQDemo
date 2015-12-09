@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.raohoulin.myqq"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
