@@ -132,27 +132,12 @@ public class SlidingMenu extends HorizontalScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        float xStart = 0, yStart = 0, xEnd, yEnd, xMove, yMove;
         createVelocityTracker(ev);
         int action = ev.getAction();
         switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                xStart = ev.getX();
-                yStart = ev.getY();
-                Log.d("RHL", "RHL: xStart="+ xStart + "; yStart=" + yStart);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                xMove = ev.getX();
-                yMove = ev.getY();
-                Log.d("RHL", "RHL: xMove="+ xMove + "; yMove=" + yMove);
-                break;
             // Up时，进行判断，如果显示区域大于菜单宽度一半则完全显示，否则隐藏。如果滑动速度超过预设值则显示或隐藏
             case MotionEvent.ACTION_UP:
                 int xScroll = getScrollX();
-                xEnd = ev.getX();
-                yEnd = getScrollY();
-                Log.d("RHL", "RHL: xEnd="+ xEnd + "; xScroll=" + + xScroll + "; yEnd=" + yEnd);
-//                float slope = (xEnd - xStart) / (yEnd - yStart);
                 if (!isOpen) {
                     if (xScroll < mHalfMenuWidth) {
                         this.smoothScrollTo(0, 0);
