@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -17,6 +18,7 @@ import com.raohoulin.myqq.presenter.MainPresenter;
 import com.raohoulin.myqq.presenter.impl.MainPresenterImpl;
 import com.raohoulin.myqq.ui.helper.DoubleClickExitHelper;
 import com.raohoulin.myqq.ui.view.MainView;
+import com.raohoulin.myqq.widget.ChildClickableLinearLayout;
 import com.raohoulin.myqq.widget.SlidingMenu;
 
 import java.util.ArrayList;
@@ -57,7 +59,6 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     @Override
     public void initView() {
-//        progressBar = (ProgressBar) findViewById(R.id.progress);
         button.setOnClickListener(this);
         change_view.setOnClickListener(this);
         is_turn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -106,7 +107,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 是否退出应用
-                return mDoubleClickExit.onKeyDown(keyCode, event);
+            return mDoubleClickExit.onKeyDown(keyCode, event);
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -119,6 +120,12 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+//            case R.id.content_main:
+//                if (slidingMenu.getIsOpen()) {
+//                    contentMain.setChildClickable(false);
+//                    slidingMenu.closeMenu();
+//                }
+//                break;
             case R.id.button:
                 presenter.goToSecondActivity(isTurn);
                 break;

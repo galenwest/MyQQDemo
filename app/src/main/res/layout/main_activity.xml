@@ -19,16 +19,18 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <LinearLayout
+        <com.raohoulin.myqq.widget.ChildClickableLinearLayout
+            android:id="@+id/content_main"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clickable="true">
 
             <include layout="@layout/menu_layout" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F58899"
+                android:background="#D5F889"
                 android:orientation="vertical">
                 <Button
                     android:id="@+id/change_view"
@@ -52,9 +54,9 @@
                 <ListView
                     android:id="@+id/lv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="320dp"/>
 
             </LinearLayout>
-        </LinearLayout>
+        </com.raohoulin.myqq.widget.ChildClickableLinearLayout>
     </FrameLayout>
 </com.raohoulin.myqq.widget.SlidingMenu>

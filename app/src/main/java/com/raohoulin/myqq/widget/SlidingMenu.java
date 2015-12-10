@@ -3,7 +3,6 @@ package com.raohoulin.myqq.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -17,7 +16,7 @@ import com.raohoulin.myqq.R;
 import com.raohoulin.myqq.util.ScreenUtils;
 
 public class SlidingMenu extends HorizontalScrollView {
-    private static final float SLIDING_SPEED = 1000f;
+    private static final float SLIDING_SPEED = 760f;
     /**
      * 屏幕宽度
      */
@@ -46,7 +45,6 @@ public class SlidingMenu extends HorizontalScrollView {
 
     public SlidingMenu(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-
     }
 
     public SlidingMenu(Context context, AttributeSet attrs, int defStyle) {
@@ -76,6 +74,10 @@ public class SlidingMenu extends HorizontalScrollView {
         this(context, null, 0);
     }
 
+    public boolean getIsOpen() {
+        return isOpen;
+    }
+
     /**
      * 创建VelocityTracker对象，并将触摸事件加入到VelocityTracker当中。
      *
@@ -96,7 +98,8 @@ public class SlidingMenu extends HorizontalScrollView {
     private int getScrollVelocity() {
         mVelocityTracker.computeCurrentVelocity(1000);
         int velocity = (int) mVelocityTracker.getXVelocity();
-        return Math.abs(velocity); // 取绝对值
+//        return Math.abs(velocity); // 取绝对值
+        return velocity;
     }
 
     @Override
@@ -153,7 +156,7 @@ public class SlidingMenu extends HorizontalScrollView {
                     if (xScroll > mHalfMenuWidth) {
                         this.smoothScrollTo(mMenuWidth, 0);
                         isOpen = false;
-                    } else if (getScrollVelocity() > speed) {
+                    } else if (getScrollVelocity() < (0 - speed)) {
                         this.smoothScrollTo(mMenuWidth, 0);
                         isOpen = false;
                     } else {

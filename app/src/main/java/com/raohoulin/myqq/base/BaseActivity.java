@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.raohoulin.myqq.AppManager;
 import com.raohoulin.myqq.base.interf.BaseViewInterface;
 
 import java.util.Map;
@@ -19,6 +20,7 @@ public abstract class BaseActivity extends Activity implements BaseViewInterface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.getAppManager().addActivity(this);
         if (getLayoutID() != 0) {
             setContentView(getLayoutID());
         }
@@ -32,6 +34,7 @@ public abstract class BaseActivity extends Activity implements BaseViewInterface
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        AppManager.getAppManager().finishActivity(this);
     }
 
     public int getLayoutID() {
