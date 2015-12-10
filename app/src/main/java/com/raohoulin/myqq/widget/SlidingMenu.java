@@ -2,11 +2,13 @@ package com.raohoulin.myqq.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
@@ -15,6 +17,7 @@ import com.raohoulin.myqq.R;
 import com.raohoulin.myqq.util.ScreenUtils;
 
 public class SlidingMenu extends HorizontalScrollView {
+    private static final float SLIDING_SPEED = 1000f;
     /**
      * 屏幕宽度
      */
@@ -28,6 +31,11 @@ public class SlidingMenu extends HorizontalScrollView {
      */
     private int mMenuWidth;
     private int mHalfMenuWidth;
+    /**
+     * 用于计算手指滑动的速度。
+     */
+    private VelocityTracker mVelocityTracker;
+    private int speed;
 
     private boolean isOpen;
 
@@ -44,6 +52,7 @@ public class SlidingMenu extends HorizontalScrollView {
     public SlidingMenu(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mScreenWidth = ScreenUtils.getScreenWidth(context);
+        speed = ScreenUtils.dip2px(context, SLIDING_SPEED);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.SlidingMenu, defStyle, 0);
@@ -52,10 +61,10 @@ public class SlidingMenu extends HorizontalScrollView {
             int attr = a.getIndex(i);
             switch (attr) {
                 case R.styleable.SlidingMenu_rightPadding:
-                    // 默认50
+                    // 默认75
                     mMenuRightPadding = a.getDimensionPixelSize(attr,
                             (int) TypedValue.applyDimension(
-                                    TypedValue.COMPLEX_UNIT_DIP, 50f,
+                                    TypedValue.COMPLEX_UNIT_DIP, 75f,
                                     getResources().getDisplayMetrics()));// 默认为10DP
                     break;
             }
@@ -67,13 +76,37 @@ public class SlidingMenu extends HorizontalScrollView {
         this(context, null, 0);
     }
 
+    /**
+     * 创建VelocityTracker对象，并将触摸事件加入到VelocityTracker当中。
+     *
+     * @param event
+     *            右侧布局监听控件的滑动事件
+     */
+    private void createVelocityTracker(MotionEvent event) {
+        if (mVelocityTracker == null) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+        mVelocityTracker.addMovement(event);
+    }
+    /**
+     * 获取手指在右侧布局的监听View上的滑动速度。
+     *
+     * @return 滑动速度，以每秒钟移动了多少像素值为单位。
+     */
+    private int getScrollVelocity() {
+        mVelocityTracker.computeCurrentVelocity(1000);
+        int velocity = (int) mVelocityTracker.getXVelocity();
+        return Math.abs(velocity); // 取绝对值
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         /**
          * 显示的设置一个宽度
          */
         if (!once) {
-            LinearLayout wrapper = (LinearLayout) getChildAt(0);
+            FrameLayout frameLayout = (FrameLayout) getChildAt(0);
+            LinearLayout wrapper = (LinearLayout) frameLayout.getChildAt(1);
             mMenu = (ViewGroup) wrapper.getChildAt(0);
             mContent = (ViewGroup) wrapper.getChildAt(1);
 
@@ -99,17 +132,49 @@ public class SlidingMenu extends HorizontalScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        float xStart = 0, yStart = 0, xEnd, yEnd, xMove, yMove;
+        createVelocityTracker(ev);
         int action = ev.getAction();
         switch (action) {
-            // Up时，进行判断，如果显示区域大于菜单宽度一半则完全显示，否则隐藏
+            case MotionEvent.ACTION_DOWN:
+                xStart = ev.getX();
+                yStart = ev.getY();
+                Log.d("RHL", "RHL: xStart="+ xStart + "; yStart=" + yStart);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                xMove = ev.getX();
+                yMove = ev.getY();
+                Log.d("RHL", "RHL: xMove="+ xMove + "; yMove=" + yMove);
+                break;
+            // Up时，进行判断，如果显示区域大于菜单宽度一半则完全显示，否则隐藏。如果滑动速度超过预设值则显示或隐藏
             case MotionEvent.ACTION_UP:
-                int scrollX = getScrollX();
-                if (scrollX > mHalfMenuWidth) {
-                    this.smoothScrollTo(mMenuWidth, 0);
-                    isOpen = false;
+                int xScroll = getScrollX();
+                xEnd = ev.getX();
+                yEnd = getScrollY();
+                Log.d("RHL", "RHL: xEnd="+ xEnd + "; xScroll=" + + xScroll + "; yEnd=" + yEnd);
+//                float slope = (xEnd - xStart) / (yEnd - yStart);
+                if (!isOpen) {
+                    if (xScroll < mHalfMenuWidth) {
+                        this.smoothScrollTo(0, 0);
+                        isOpen = true;
+                    } else if (getScrollVelocity() > speed) {
+                        this.smoothScrollTo(0, 0);
+                        isOpen = true;
+                    } else {
+                        this.smoothScrollTo(mMenuWidth, 0);
+                        isOpen = false;
+                    }
                 } else {
-                    this.smoothScrollTo(0, 0);
-                    isOpen = true;
+                    if (xScroll > mHalfMenuWidth) {
+                        this.smoothScrollTo(mMenuWidth, 0);
+                        isOpen = false;
+                    } else if (getScrollVelocity() > speed) {
+                        this.smoothScrollTo(mMenuWidth, 0);
+                        isOpen = false;
+                    } else {
+                        this.smoothScrollTo(0, 0);
+                        isOpen = true;
+                    }
                 }
                 return true;
         }

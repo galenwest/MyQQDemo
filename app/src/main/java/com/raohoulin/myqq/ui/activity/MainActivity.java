@@ -5,7 +5,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -16,6 +18,11 @@ import com.raohoulin.myqq.presenter.impl.MainPresenterImpl;
 import com.raohoulin.myqq.ui.helper.DoubleClickExitHelper;
 import com.raohoulin.myqq.ui.view.MainView;
 import com.raohoulin.myqq.widget.SlidingMenu;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 
@@ -28,12 +35,14 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     private MainPresenter presenter;
     private boolean isTurn;
     private DoubleClickExitHelper mDoubleClickExit;
+    private List<Map<String, String>> popupData;
 
     @Bind(R.id.progress) ProgressBar progressBar;
     @Bind(R.id.is_turn) Switch is_turn;
     @Bind(R.id.button) Button button;
     @Bind(R.id.change_view) Button change_view;
     @Bind(R.id.menu_id) SlidingMenu slidingMenu;
+    @Bind(R.id.lv) ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                 isTurn = isChecked;
             }
         });
+        listView.setAdapter(new SimpleAdapter(this, popupData, R.layout.popup_layout_list_view_item, new String[]{"key"}, new int[]{R.id.value}));
 
     }
 
@@ -65,6 +75,15 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         presenter = new MainPresenterImpl(this);
         isTurn = is_turn.isChecked();
         mDoubleClickExit = new DoubleClickExitHelper(this);
+
+        popupData = new ArrayList<>();
+        Map<String, String> map;
+        for (int i=0; i<100; i++) {
+            map = new HashMap<>();
+            map.put("key", "VALUE"+i);
+            popupData.add(map);
+        }
+
     }
 
     @Override public void showProgress() {
