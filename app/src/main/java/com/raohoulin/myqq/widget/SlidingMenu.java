@@ -35,9 +35,17 @@ public class SlidingMenu extends HorizontalScrollView {
      */
     private VelocityTracker mVelocityTracker;
     private int speed;
+    /**
+     * 判断方向变量
+     */
+/*    private int thisX;
+    private int thisY;
+    private int moveX;
+    private int moveY;
+    private double sin;
+    private boolean isFirstMove = true;*/
 
     private boolean isOpen;
-
     private boolean once;
 
     private ViewGroup mMenu;
@@ -87,8 +95,7 @@ public class SlidingMenu extends HorizontalScrollView {
     /**
      * 创建VelocityTracker对象，并将触摸事件加入到VelocityTracker当中。
      *
-     * @param event
-     *            右侧布局监听控件的滑动事件
+     * @param event 右侧布局监听控件的滑动事件
      */
     private void createVelocityTracker(MotionEvent event) {
         if (mVelocityTracker == null) {
@@ -96,6 +103,7 @@ public class SlidingMenu extends HorizontalScrollView {
         }
         mVelocityTracker.addMovement(event);
     }
+
     /**
      * 获取手指在右侧布局的监听View上的滑动速度。
      *
@@ -139,6 +147,36 @@ public class SlidingMenu extends HorizontalScrollView {
         }
     }
 
+    /* @Override
+     public boolean onInterceptTouchEvent(MotionEvent ev) {
+         int action = ev.getAction();
+         switch (action) {
+             case MotionEvent.ACTION_DOWN:
+                 isFirstMove = true;
+                 thisX = (int) ev.getX();
+                 thisY = (int) ev.getY();
+                 Log.d("RHL", "Down thisX=" + thisX + "; thisY=" + thisY);
+                 break;
+             case MotionEvent.ACTION_MOVE:
+                 Log.d("RHL", "Intercept Move");
+                 if (isFirstMove) {
+                     moveX = (int) ev.getX() - thisX;
+                     moveY = (int) ev.getY() - thisY;
+                     thisX = (int) ev.getX();
+                     thisY = (int) ev.getY();
+                     sin = (moveX == 0 || moveY == 0) ? 0 : (moveY / Math.sqrt(moveX * moveX + moveY * moveY));
+                     Log.d("RHL", "thisX=" + thisX + "; thisY=" + thisY + "; moveX=" + moveX + "; moveY=" + moveY + "; sin=" + sin);
+                     if (Math.abs(sin) < 0.32) {
+                         isFirstMove = false;
+                         return true;
+                     }
+                 }
+                 break;
+         }
+         isFirstMove = true;
+         return super.onInterceptTouchEvent(ev);
+     }
+ */
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         createVelocityTracker(ev);
@@ -149,35 +187,25 @@ public class SlidingMenu extends HorizontalScrollView {
                 int xScroll = getScrollX();
                 if (!isOpen) {
                     if (xScroll < mHalfMenuWidth) {
-                        openTheMenu();
+                        openMenu();
                     } else if (getScrollVelocity() > speed) {
-                        openTheMenu();
+                        openMenu();
                     } else {
-                        closeTheMenu();
+                        closeMenu();
                     }
                 } else {
                     if (xScroll > mHalfMenuWidth) {
-                        closeTheMenu();
+                        closeMenu();
                     } else if (getScrollVelocity() < (0 - speed)) {
-                        closeTheMenu();
+                        closeMenu();
                     } else {
-                        openTheMenu();
+                        openMenu();
                     }
                 }
+
                 return true;
         }
         return super.onTouchEvent(ev);
-    }
-
-    private void openTheMenu() {
-        this.smoothScrollTo(0, 0);
-        isOpen = true;
-        onChildClickableListener.setIsOpen(!isOpen);
-    }
-    private void closeTheMenu() {
-        this.smoothScrollTo(mMenuWidth, 0);
-        isOpen = false;
-        onChildClickableListener.setIsOpen(!isOpen);
     }
 
     /**
@@ -188,6 +216,7 @@ public class SlidingMenu extends HorizontalScrollView {
             return;
         this.smoothScrollTo(0, 0);
         isOpen = true;
+        onChildClickableListener.setIsOpen(!isOpen);
     }
 
     /**
@@ -197,6 +226,7 @@ public class SlidingMenu extends HorizontalScrollView {
         if (isOpen) {
             this.smoothScrollTo(mMenuWidth, 0);
             isOpen = false;
+            onChildClickableListener.setIsOpen(!isOpen);
         }
     }
 
@@ -218,8 +248,8 @@ public class SlidingMenu extends HorizontalScrollView {
         float leftScale = 1 - 0.3f * scale;
 //        float rightScale = 0.8f + scale * 0.2f;
 
-        ViewHelper.setScaleX(mMenu, leftScale);
-        ViewHelper.setScaleY(mMenu, leftScale);
+//        ViewHelper.setScaleX(mMenu, leftScale);
+//        ViewHelper.setScaleY(mMenu, leftScale);
         ViewHelper.setAlpha(mMenu, 0.6f + 0.4f * (1 - scale));
         ViewHelper.setTranslationX(mMenu, mMenuWidth * scale * 0.7f);
 

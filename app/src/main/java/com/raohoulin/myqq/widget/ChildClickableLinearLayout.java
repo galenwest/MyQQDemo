@@ -14,6 +14,7 @@ public class ChildClickableLinearLayout extends LinearLayout implements OnChildC
     //子控件是否可以接受点击事件
     private boolean childClickable = true;
 
+
     public ChildClickableLinearLayout(Context context, boolean isOpen) {
         super(context);
         childClickable = !isOpen;
