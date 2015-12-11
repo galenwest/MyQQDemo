@@ -43,6 +43,8 @@ public class SlidingMenu extends HorizontalScrollView {
     private ViewGroup mMenu;
     private ViewGroup mContent;
 
+    private OnChildClickableListener onChildClickableListener;
+
     public SlidingMenu(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -72,6 +74,10 @@ public class SlidingMenu extends HorizontalScrollView {
 
     public SlidingMenu(Context context) {
         this(context, null, 0);
+    }
+
+    public void setOnChildClickableListener(OnChildClickableListener onChildClickableListener) {
+        this.onChildClickableListener = onChildClickableListener;
     }
 
     public boolean getIsOpen() {
@@ -143,30 +149,35 @@ public class SlidingMenu extends HorizontalScrollView {
                 int xScroll = getScrollX();
                 if (!isOpen) {
                     if (xScroll < mHalfMenuWidth) {
-                        this.smoothScrollTo(0, 0);
-                        isOpen = true;
+                        openTheMenu();
                     } else if (getScrollVelocity() > speed) {
-                        this.smoothScrollTo(0, 0);
-                        isOpen = true;
+                        openTheMenu();
                     } else {
-                        this.smoothScrollTo(mMenuWidth, 0);
-                        isOpen = false;
+                        closeTheMenu();
                     }
                 } else {
                     if (xScroll > mHalfMenuWidth) {
-                        this.smoothScrollTo(mMenuWidth, 0);
-                        isOpen = false;
+                        closeTheMenu();
                     } else if (getScrollVelocity() < (0 - speed)) {
-                        this.smoothScrollTo(mMenuWidth, 0);
-                        isOpen = false;
+                        closeTheMenu();
                     } else {
-                        this.smoothScrollTo(0, 0);
-                        isOpen = true;
+                        openTheMenu();
                     }
                 }
                 return true;
         }
         return super.onTouchEvent(ev);
+    }
+
+    private void openTheMenu() {
+        this.smoothScrollTo(0, 0);
+        isOpen = true;
+        onChildClickableListener.setIsOpen(!isOpen);
+    }
+    private void closeTheMenu() {
+        this.smoothScrollTo(mMenuWidth, 0);
+        isOpen = false;
+        onChildClickableListener.setIsOpen(!isOpen);
     }
 
     /**

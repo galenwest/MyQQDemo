@@ -5,7 +5,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -44,6 +43,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Bind(R.id.button) Button button;
     @Bind(R.id.change_view) Button change_view;
     @Bind(R.id.menu_id) SlidingMenu slidingMenu;
+    @Bind(R.id.content_main) ChildClickableLinearLayout contentMain;
     @Bind(R.id.lv) ListView listView;
 
     @Override
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             }
         });
         listView.setAdapter(new SimpleAdapter(this, popupData, R.layout.popup_layout_list_view_item, new String[]{"key"}, new int[]{R.id.value}));
-
+        slidingMenu.setOnChildClickableListener(contentMain);
     }
 
     @Override
@@ -120,12 +120,6 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.content_main:
-//                if (slidingMenu.getIsOpen()) {
-//                    contentMain.setChildClickable(false);
-//                    slidingMenu.closeMenu();
-//                }
-//                break;
             case R.id.button:
                 presenter.goToSecondActivity(isTurn);
                 break;
@@ -137,4 +131,5 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         }
 
     }
+
 }

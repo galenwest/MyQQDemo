@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 /**
  * 可以直接控制所有子控件是否可点击的LinearLayout
  */
-public class ChildClickableLinearLayout extends LinearLayout {
+public class ChildClickableLinearLayout extends LinearLayout implements OnChildClickableListener {
     //子控件是否可以接受点击事件
     private boolean childClickable = true;
 
@@ -38,8 +38,9 @@ public class ChildClickableLinearLayout extends LinearLayout {
         return !childClickable;
     }
 
-    public void setChildClickable(boolean clickable) {
-        childClickable = clickable;
+    @Override
+    public void setIsOpen(boolean isOpen) {
+        childClickable = isOpen;
     }
 
 }
