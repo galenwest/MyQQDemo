@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Bind(R.id.menu_id) SlidingMenu slidingMenu;
     @Bind(R.id.content_main) ChildClickableLinearLayout contentMain;
     @Bind(R.id.lv) ListView listView;
+    @Bind(R.id.menu_button) Button menuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     public void initView() {
         button.setOnClickListener(this);
         change_view.setOnClickListener(this);
+        menuButton.setOnClickListener(this);
         is_turn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -126,6 +128,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             case R.id.change_view:
                 slidingMenu.toggle();
                 break;
+            case R.id.menu_button:
+                Toast.makeText(this, "Test Menu", Toast.LENGTH_LONG).show();
             default:
                 break;
         }

@@ -212,8 +212,6 @@ public class SlidingMenu extends HorizontalScrollView {
      * 打开菜单
      */
     public void openMenu() {
-        if (isOpen)
-            return;
         this.smoothScrollTo(0, 0);
         isOpen = true;
         onChildClickableListener.setIsOpen(!isOpen);
@@ -223,11 +221,9 @@ public class SlidingMenu extends HorizontalScrollView {
      * 关闭菜单
      */
     public void closeMenu() {
-        if (isOpen) {
-            this.smoothScrollTo(mMenuWidth, 0);
-            isOpen = false;
-            onChildClickableListener.setIsOpen(!isOpen);
-        }
+        this.smoothScrollTo(mMenuWidth, 0);
+        isOpen = false;
+        onChildClickableListener.setIsOpen(!isOpen);
     }
 
     /**
