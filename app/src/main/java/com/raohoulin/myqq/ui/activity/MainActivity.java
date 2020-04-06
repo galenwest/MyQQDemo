@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
-
 import static com.raohoulin.myqq.ui.activity.SecondActivity.actionStart;
 
 /**
@@ -38,20 +36,13 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     private DoubleClickExitHelper mDoubleClickExit;
     private List<Map<String, String>> popupData;
 
-    @Bind(R.id.progress) ProgressBar progressBar;
-    @Bind(R.id.is_turn) Switch is_turn;
-    @Bind(R.id.button) Button button;
-    @Bind(R.id.change_view) Button change_view;
-    @Bind(R.id.menu_id) SlidingMenu slidingMenu;
-    @Bind(R.id.content_main) ChildClickableLinearLayout contentMain;
-    @Bind(R.id.lv) ListView listView;
-    @Bind(R.id.menu_button) Button menuButton;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
+    ProgressBar progressBar;
+    Switch is_turn;
+    Button button;
+    Button change_view;
+    SlidingMenu slidingMenu;
+    ChildClickableLinearLayout contentMain;
+    ListView listView;
 
     @Override
     public int getLayoutID() {
@@ -60,9 +51,16 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 
     @Override
     public void initView() {
+        progressBar = findViewById(R.id.progress);
+        is_turn = findViewById(R.id.is_turn);
+        button = findViewById(R.id.button);
+        change_view = findViewById(R.id.change_view);
+        slidingMenu = findViewById(R.id.menu_id);
+        contentMain = findViewById(R.id.content_main);
+        listView = findViewById(R.id.lv);
+
         button.setOnClickListener(this);
         change_view.setOnClickListener(this);
-        menuButton.setOnClickListener(this);
         is_turn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -71,33 +69,37 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         });
         listView.setAdapter(new SimpleAdapter(this, popupData, R.layout.popup_layout_list_view_item, new String[]{"key"}, new int[]{R.id.value}));
         slidingMenu.setOnChildClickableListener(contentMain);
+        isTurn = is_turn.isChecked();
+        contentMain.setSlidingMenu(slidingMenu);
     }
 
     @Override
     public void initData() {
         presenter = new MainPresenterImpl(this);
-        isTurn = is_turn.isChecked();
         mDoubleClickExit = new DoubleClickExitHelper(this);
 
         popupData = new ArrayList<>();
         Map<String, String> map;
-        for (int i=0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
             map = new HashMap<>();
-            map.put("key", "VALUE"+i);
+            map.put("key", "VALUE" + i);
             popupData.add(map);
         }
 
     }
 
-    @Override public void showProgress() {
+    @Override
+    public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    @Override public void hideProgress() {
+    @Override
+    public void hideProgress() {
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override public void navigateToSecond() {
+    @Override
+    public void navigateToSecond() {
         actionStart(this);
 //        finish();
     }
@@ -128,12 +130,12 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             case R.id.change_view:
                 slidingMenu.toggle();
                 break;
-            case R.id.menu_button:
-                Toast.makeText(this, "Test Menu", Toast.LENGTH_LONG).show();
+//            case R.id.menu_button:
+//                slidingMenu.closeMenu();
+//                Toast.makeText(this, "Test Menu", Toast.LENGTH_LONG).show();
             default:
                 break;
         }
-
     }
 
 }

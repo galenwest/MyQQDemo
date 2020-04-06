@@ -19,14 +19,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
-
 /**
  * Created by Administrator on 2015.12.4.
  */
 public class SecondActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.popup)
     Button popup;
     private PopupWindow popupWindow;
     private ListView popupListView;
@@ -42,6 +39,7 @@ public class SecondActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        popup = findViewById(R.id.popup);
         popup.setOnClickListener(this);
     }
 

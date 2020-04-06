@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MyQQ.iml" filepath="$PROJECT_DIR$/MyQQ.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyQQDemo.iml" filepath="$PROJECT_DIR$/MyQQDemo.iml" group="MyQQDemo" />
+      <module fileurl="file://$PROJECT_DIR$/app/MyQQDemo-app.iml" filepath="$PROJECT_DIR$/app/MyQQDemo-app.iml" group="MyQQDemo/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

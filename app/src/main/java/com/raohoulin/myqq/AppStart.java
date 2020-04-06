@@ -13,30 +13,17 @@ import android.widget.TextView;
 import com.raohoulin.myqq.base.BaseActivity;
 import com.raohoulin.myqq.ui.activity.MainActivity;
 
-import butterknife.Bind;
-
 /**
  * Created by Administrator on 2015.12.4.
  */
 public class AppStart extends BaseActivity {
-    @Bind(R.id.ai) TextView ai;
-    @Bind(R.id.zhe) TextView zhe;
-    @Bind(R.id.li) TextView li;
-    @Bind(R.id.dou) TextView dou;
-    @Bind(R.id.ni) TextView ni;
-    @Bind(R.id.hao) TextView hao;
-    @Bind(R.id.a) TextView a;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // 防止第三方跳转时出现双实例
-        Activity aty = AppManager.getActivity(MainActivity.class);
-        if (aty != null && !aty.isFinishing()) {
-            finish();
-        }
-
-    }
+    TextView ai;
+    TextView zhe;
+    TextView li;
+    TextView dou;
+    TextView ni;
+    TextView hao;
+    TextView a;
 
     @Override
     public int getLayoutID() {
@@ -44,18 +31,30 @@ public class AppStart extends BaseActivity {
     }
 
     @Override
-    public void initView() {
-        myDelay(ai, 300);
-        myDelay(zhe, 600);
-        myDelay(li, 900);
-        myDelay(dou, 1200);
-        myDelay(ni, 1500);
-        myDelay(hao, 1800);
-        myDelay(a, 2100);
+    public void initView() { // 防止第三方跳转时出现双实例
+        Activity aty = AppManager.getActivity(MainActivity.class);
+        if (aty != null && !aty.isFinishing()) {
+            finish();
+        }
+        ai = findViewById(R.id.ai);
+        zhe = findViewById(R.id.zhe);
+        li = findViewById(R.id.li);
+        dou = findViewById(R.id.dou);
+        ni = findViewById(R.id.ni);
+        hao = findViewById(R.id.hao);
+        a = findViewById(R.id.a);
+        myDelay(ai, 100);
+        myDelay(zhe, 200);
+        myDelay(li, 300);
+        myDelay(dou, 400);
+        myDelay(ni, 500);
+        myDelay(hao, 600);
+        myDelay(a, 700);
     }
 
     @Override
-    public void initData() {}
+    public void initData() {
+    }
 
     public void myDelay(final View v, long startTime) {
         new Handler().postDelayed(new Runnable() {
@@ -66,6 +65,7 @@ public class AppStart extends BaseActivity {
             }
         }, startTime);
     }
+
     private void fromXml(View v) {
         AnimationSet sets = (AnimationSet) AnimationUtils.loadAnimation(this, R.anim.alphaanim);
         v.startAnimation(sets);
@@ -74,6 +74,7 @@ public class AppStart extends BaseActivity {
                 @Override
                 public void onAnimationStart(Animation animation) {
                 }
+
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     new Handler().postDelayed(new Runnable() {
@@ -81,8 +82,9 @@ public class AppStart extends BaseActivity {
                         public void run() {
                             redirectTo();
                         }
-                    }, 800);
+                    }, 100);
                 }
+
                 @Override
                 public void onAnimationRepeat(Animation animation) {
                 }
